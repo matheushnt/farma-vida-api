@@ -51,7 +51,6 @@ public class PlanoSaude {
     private Instant criadoEm;
 
     @OneToMany(mappedBy = "planoSaude")
-    @OnDelete(action = OnDeleteAction.SET_NULL)
     private List<Cliente> clientes = new ArrayList<>();
 
     @OneToMany(mappedBy = "planoSaude")
