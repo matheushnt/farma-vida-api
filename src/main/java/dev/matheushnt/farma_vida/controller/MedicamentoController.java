@@ -27,7 +27,10 @@ public class MedicamentoController {
 
     @PostMapping()
     public ResponseEntity<UUID> adicionar(@Valid @RequestBody MedicamentoRequest medicamentoRequest) {
-        Medicamento medicamento = medicamentoRequest.criarModel();
+        Medicamento medicamento = new Medicamento();
+        medicamento.setNome(medicamentoRequest.nome());
+        medicamento.setCategoria(medicamentoRequest.categoria());
+        medicamento.setPreco(medicamentoRequest.preco());
         this.medicamentoRepository.save(medicamento);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(medicamento.getId());

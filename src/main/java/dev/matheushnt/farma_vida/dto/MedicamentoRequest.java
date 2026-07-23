@@ -20,21 +20,4 @@ public record MedicamentoRequest(
         @Positive(message = "O campo [preco] deve ser um valor maior do que zero (0)")
         BigDecimal preco
 
-) {
-
-    public MedicamentoRequest(String nome, CategoriaMedicamento categoria, BigDecimal preco) {
-        this.nome = nome;
-        this.categoria = categoria;
-        this.preco = preco;
-    }
-
-    public Medicamento criarModel() {
-        var medicamento = new Medicamento();
-        medicamento.setNome(nome);
-        medicamento.setCategoria(categoria);
-        medicamento.setPreco(preco);
-
-        return medicamento;
-    }
-
-}
+) {}
