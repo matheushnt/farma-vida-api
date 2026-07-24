@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -26,14 +27,14 @@ public class MedicamentoController {
     }
 
     @PostMapping()
-    public ResponseEntity<UUID> adicionar(@Valid @RequestBody MedicamentoRequest medicamentoRequest) {
+    public ResponseEntity<Map<String, UUID>> adicionar(@Valid @RequestBody MedicamentoRequest medicamentoRequest) {
         Medicamento medicamento = new Medicamento();
         medicamento.setNome(medicamentoRequest.nome());
         medicamento.setCategoria(medicamentoRequest.categoria());
         medicamento.setPreco(medicamentoRequest.preco());
         this.medicamentoRepository.save(medicamento);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(medicamento.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("medicamentoId", medicamento.getId()));
     }
 
 }

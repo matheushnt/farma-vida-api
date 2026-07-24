@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -26,7 +27,7 @@ public class PlanoSaudeController {
     }
 
     @PostMapping()
-    public ResponseEntity<UUID> adicionar(@Valid @RequestBody PlanoSaudeRequest planoSaudeRequest) {
+    public ResponseEntity<Map<String, UUID>> adicionar(@Valid @RequestBody PlanoSaudeRequest planoSaudeRequest) {
         PlanoSaude planoSaude = new PlanoSaude();
         planoSaude.setNome(planoSaudeRequest.nome());
         planoSaude.setPercentualDesconto(planoSaudeRequest.percentualDesconto());
@@ -34,7 +35,7 @@ public class PlanoSaudeController {
         planoSaude.setLimiteMensal(planoSaudeRequest.limiteMensal());
         this.planoSaudeRepository.save(planoSaude);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(planoSaude.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("planoSaudeId", planoSaude.getId()));
     }
 
 }
