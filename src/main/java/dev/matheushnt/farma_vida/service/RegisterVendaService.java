@@ -3,7 +3,6 @@ package dev.matheushnt.farma_vida.service;
 import dev.matheushnt.farma_vida.dto.ItemRequest;
 import dev.matheushnt.farma_vida.dto.VendaRequest;
 import dev.matheushnt.farma_vida.enums.StatusVenda;
-import dev.matheushnt.farma_vida.exception.RecursoEncontradoException;
 import dev.matheushnt.farma_vida.exception.RecursoNaoEncontradoException;
 import dev.matheushnt.farma_vida.model.*;
 import dev.matheushnt.farma_vida.repository.ClienteRepository;
@@ -39,7 +38,7 @@ public class RegisterVendaService {
         Venda venda = new Venda();
 
         Cliente cliente = this.clienteRepository.findById(vendaRequest.clienteId())
-                .orElseThrow(() -> new RecursoEncontradoException("Cliente não encontrado"));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Cliente não encontrado"));
 
         venda.setCliente(cliente);
         venda.setUsarConvenio(vendaRequest.usarConvenio());
