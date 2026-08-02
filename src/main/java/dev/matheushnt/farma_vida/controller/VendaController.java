@@ -3,22 +3,25 @@ package dev.matheushnt.farma_vida.controller;
 import dev.matheushnt.farma_vida.dto.ItemResponse;
 import dev.matheushnt.farma_vida.dto.VendaRequest;
 import dev.matheushnt.farma_vida.dto.VendaResponse;
+import dev.matheushnt.farma_vida.exception.RecursoNaoEncontradoException;
 import dev.matheushnt.farma_vida.model.Venda;
+import dev.matheushnt.farma_vida.repository.VendaRepository;
 import dev.matheushnt.farma_vida.service.RegisterVendaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/venda")
 public class VendaController {
+
+    @Autowired
+    private VendaRepository vendaRepository;
 
     @Autowired
     private RegisterVendaService registerVendaService;
@@ -26,7 +29,20 @@ public class VendaController {
     @PostMapping()
     public ResponseEntity<VendaResponse> adicionar(@Valid @RequestBody VendaRequest vendaRequest) {
         Venda venda = this.registerVendaService.registrar(vendaRequest);
+        VendaResponse vendaResponse = this.criarVendaResponse(venda);
 
+        return ResponseEntity.status(HttpStatus.CREATED).body(vendaResponse);
+    }
+
+    @GetMapping("/{vendaId}")
+    public ResponseEntity<VendaResponse> obterDetalhesVenda(@PathVariable UUID vendaId) {
+        Venda venda = this.vendaRepository.findById(vendaId).orElseThrow(() -> new RecursoNaoEncontradoException("Venda não encontrada"));
+        VendaResponse vendaResponse = this.criarVendaResponse(venda);
+
+        return ResponseEntity.ok().body(vendaResponse);
+    }
+
+    private VendaResponse criarVendaResponse(Venda venda) {
         List<ItemResponse> vendaItens = venda.getItens().stream()
                 .map((item) -> new ItemResponse(
                         item.getMedicamento().getId(),
@@ -37,17 +53,16 @@ public class VendaController {
                 ))
                 .toList();
 
-        VendaResponse vendaResponse = new VendaResponse(
+        return new VendaResponse(
                 venda.getId(),
                 venda.getCliente().getId(),
                 venda.getStatus(),
                 venda.getValorBruto(),
                 venda.getValorPagoCliente(),
                 venda.getValorPagoConvenio(),
+                venda.getFatura().getId(),
                 vendaItens
         );
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(vendaResponse);
     }
 
 }

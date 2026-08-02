@@ -13,5 +13,6 @@ public record VendaResponse(
         BigDecimal valorBruto,
         BigDecimal valorPagoCliente,
         BigDecimal valorPagoConvenio,
+        UUID faturaId,
         List<ItemResponse> itens
 ) {}
