@@ -38,12 +38,6 @@ public class VendaItem {
     @Column(name = "valor_bruto")
     private BigDecimal valorBruto;
 
-    @Column(name = "valor_pago_convenio")
-    private BigDecimal valorCobertoConvenio;
-
-    @Column(name = "valor_pago_cliente", nullable = false)
-    private BigDecimal valorPagoCliente;
-
     @ManyToOne()
     @JoinColumn(name = "venda_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

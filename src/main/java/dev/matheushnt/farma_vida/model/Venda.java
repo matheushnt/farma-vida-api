@@ -12,6 +12,8 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -38,6 +40,9 @@ public class Venda {
 
     @Column(name = "valor_pago_convenio", nullable = false)
     private BigDecimal valorPagoConvenio;
+
+    @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<VendaItem> itens = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
