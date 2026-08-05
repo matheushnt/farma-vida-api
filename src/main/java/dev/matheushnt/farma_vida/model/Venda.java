@@ -12,6 +12,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -28,6 +29,10 @@ public class Venda {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    @CreationTimestamp
+    @Column(name = "data_venda", nullable = false, updatable = false)
+    private LocalDate dataVenda;
 
     @Column(name = "usar_convenio", nullable = false)
     private Boolean usarConvenio = false;

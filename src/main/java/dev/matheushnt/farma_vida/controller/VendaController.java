@@ -6,7 +6,7 @@ import dev.matheushnt.farma_vida.dto.VendaResponse;
 import dev.matheushnt.farma_vida.exception.RecursoNaoEncontradoException;
 import dev.matheushnt.farma_vida.model.Venda;
 import dev.matheushnt.farma_vida.repository.VendaRepository;
-import dev.matheushnt.farma_vida.service.RegisterVendaService;
+import dev.matheushnt.farma_vida.service.RegistrarVendaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,11 +24,11 @@ public class VendaController {
     private VendaRepository vendaRepository;
 
     @Autowired
-    private RegisterVendaService registerVendaService;
+    private RegistrarVendaService registrarVendaService;
 
     @PostMapping()
     public ResponseEntity<VendaResponse> adicionar(@Valid @RequestBody VendaRequest vendaRequest) {
-        Venda venda = this.registerVendaService.registrar(vendaRequest);
+        Venda venda = this.registrarVendaService.registrar(vendaRequest);
         VendaResponse vendaResponse = this.criarVendaResponse(venda);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(vendaResponse);

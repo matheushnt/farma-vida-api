@@ -13,16 +13,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.time.YearMonth;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class RegisterVendaService {
+public class RegistrarVendaService {
 
     @Autowired
     private ClienteRepository clienteRepository;
@@ -130,8 +129,8 @@ public class RegisterVendaService {
     }
 
     private BigDecimal calcularSaldoRestante(Cliente cliente, PlanoSaude planoSaude) {
-        Instant agora = Instant.now();
-        Instant inicioMes = YearMonth.now().atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
+        LocalDate agora = LocalDate.now();
+        LocalDate inicioMes = YearMonth.now().atDay(1).atStartOfDay().toLocalDate();
         BigDecimal limiteConsumido = vendaRepository.calcularLimiteMensalConsumido(cliente.getId(), planoSaude.getId(), inicioMes, agora);
 
         return planoSaude.getLimiteMensal().subtract(limiteConsumido);
