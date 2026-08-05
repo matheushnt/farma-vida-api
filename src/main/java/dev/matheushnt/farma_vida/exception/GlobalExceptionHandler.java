@@ -51,6 +51,14 @@ public class GlobalExceptionHandler {
         return problemDetail;
     }
 
+    @ExceptionHandler(NenhumaVendaParaFaturarException.class)
+    public ProblemDetail handleNenhumaVendaParaFaturar(NenhumaVendaParaFaturarException ex, HttpServletRequest request) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(404), ex.getMessage());
+        problemDetail.setInstance(URI.create(request.getRequestURI()));
+
+        return problemDetail;
+    }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ProblemDetail handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpServletRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), "O corpo da requisição está malformado");
