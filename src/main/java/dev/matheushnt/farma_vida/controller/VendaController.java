@@ -60,7 +60,6 @@ public class VendaController {
                 venda.getValorBruto(),
                 venda.getValorPagoCliente(),
                 venda.getValorPagoConvenio(),
-                venda.getFatura().getId(),
                 vendaItens
         );
     }
