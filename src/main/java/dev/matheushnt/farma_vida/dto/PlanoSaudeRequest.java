@@ -1,7 +1,6 @@
 package dev.matheushnt.farma_vida.dto;
 
 import dev.matheushnt.farma_vida.enums.CategoriaMedicamento;
-import dev.matheushnt.farma_vida.model.PlanoSaude;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;

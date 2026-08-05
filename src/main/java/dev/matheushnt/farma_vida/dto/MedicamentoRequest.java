@@ -1,7 +1,6 @@
 package dev.matheushnt.farma_vida.dto;
 
 import dev.matheushnt.farma_vida.enums.CategoriaMedicamento;
-import dev.matheushnt.farma_vida.model.Medicamento;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
