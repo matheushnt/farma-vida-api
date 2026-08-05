@@ -43,7 +43,7 @@ public class CreateClienteService {
             Optional<PlanoSaude> planoSaudeExiste = this.planoSaudeRepository.findById(clienteRequest.planoSaudeId());
 
             if (planoSaudeExiste.isEmpty()) {
-                throw new RecursoNaoEncontradoException("Plano de Saúde não econtrado");
+                throw new RecursoNaoEncontradoException("Plano de Saúde não encontrado");
             }
 
             PlanoSaude planoSaude = planoSaudeExiste.get();

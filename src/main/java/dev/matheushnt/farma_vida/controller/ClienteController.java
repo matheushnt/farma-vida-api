@@ -1,6 +1,7 @@
 package dev.matheushnt.farma_vida.controller;
 
 import dev.matheushnt.farma_vida.dto.ClienteRequest;
+import dev.matheushnt.farma_vida.dto.ClienteResponse;
 import dev.matheushnt.farma_vida.model.Cliente;
 import dev.matheushnt.farma_vida.repository.ClienteRepository;
 import dev.matheushnt.farma_vida.service.CreateClienteService;
@@ -25,9 +26,18 @@ public class ClienteController {
     private CreateClienteService createClienteService;
 
     @GetMapping()
-    public ResponseEntity<List<Cliente>> listar() {
+    public ResponseEntity<List<ClienteResponse>> listar() {
         List<Cliente> clientes = this.clienteRepository.findAll();
-        return ResponseEntity.ok().body(clientes);
+        List<ClienteResponse> clienteResponseList = clientes.stream()
+                .map((c) -> new ClienteResponse(
+                        c.getId(),
+                        c.getNome(),
+                        c.getCpf(),
+                        (c.getPlanoSaude() != null) ? c.getPlanoSaude().getId() : null
+                ))
+                .toList();
+
+        return ResponseEntity.ok().body(clienteResponseList);
     }
 
     @PostMapping()
