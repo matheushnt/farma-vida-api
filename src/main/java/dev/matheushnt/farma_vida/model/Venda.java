@@ -53,12 +53,12 @@ public class Venda {
     @Column(nullable = false)
     private StatusVenda status;
 
-    @ManyToOne(optional = true)
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "fatura_id", nullable = true)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Fatura fatura;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Cliente cliente;

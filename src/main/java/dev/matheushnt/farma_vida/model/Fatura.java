@@ -33,7 +33,7 @@ public class Fatura {
     @Column(name = "quantidade_vendas", nullable = false)
     private Integer quantidadeVendas;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "plano_saude_id", nullable = false)
     private PlanoSaude planoSaude;
 

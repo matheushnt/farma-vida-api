@@ -38,12 +38,12 @@ public class VendaItem {
     @Column(name = "valor_bruto")
     private BigDecimal valorBruto;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "venda_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Venda venda;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "medicamento_id", nullable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Medicamento medicamento;

@@ -32,7 +32,7 @@ public class Cliente {
     @Column(unique = true, length = 11, columnDefinition = "CHAR(11)")
     private String cpf;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "plano_saude_id", nullable = true)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private PlanoSaude planoSaude;
