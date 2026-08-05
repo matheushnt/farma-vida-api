@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class CreateClienteService {
+public class CriarClienteService {
 
     @Autowired
     private ClienteRepository clienteRepository;
