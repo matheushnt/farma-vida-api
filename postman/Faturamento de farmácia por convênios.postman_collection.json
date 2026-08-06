@@ -1,0 +1,278 @@
+{
+	"info": {
+		"_postman_id": "b97cef35-ccc4-4853-8761-c546edcd40df",
+		"name": "Faturamento de farmácia por convênios",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48148495"
+	},
+	"item": [
+		{
+			"name": "Clientes",
+			"item": [
+				{
+					"name": "Listar clientes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{local}}/cliente",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"cliente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar cliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"John Doe\",\n    \"cpf\": \"52005459003\",\n    \"planoSaudeId\": \"2f580229-ac11-4b70-82fe-fb52a077bc6c\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/cliente",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"cliente"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Medicamentos",
+			"item": [
+				{
+					"name": "Listar medicamentos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/medicamento",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"medicamento"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar medicamento",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Dipirona 500mg\",\n    \"categoria\": \"generico\",\n    \"preco\": 5.98\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/medicamento",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"medicamento"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Planos de saúde",
+			"item": [
+				{
+					"name": "Listar planos de saúde",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/plano-saude",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"plano-saude"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar plano de saúde",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Hapvida\",\n    \"percentualDesconto\": 0.25,\n    \"categoriasCobertas\": [\"GENERICO\", \"REFERENCIA\", \"SIMILAR\"],\n    \"limiteMensal\": 100 \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/plano-saude",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"plano-saude"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Vendas",
+			"item": [
+				{
+					"name": "Registrar venda",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"clienteId\": \"92232148-f934-474c-a334-3a4c2020d23c\",\n    \"usarConvenio\": true,\n    \"itens\": [\n        // { \"medicamentoId\": \"024984e5-3d41-48de-8800-b5f25eccc706\", \"quantidade\": 3 },\n        { \"medicamentoId\": \"e0d59c97-3043-4fdc-a8df-1da451a4f769\", \"quantidade\": 4 }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/venda",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"venda"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obter detalhes da venda",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"clienteId\": \"eebc50de-2bea-4c92-b678-212ec66e5642\",\n    \"usarConvenio\": true,\n    \"itens\": [\n        { \"medicamentoId\": \"661e1d4b-1071-46ff-9cc5-fefa455720ab\", \"quantidade\": 3 },\n        { \"medicamentoId\": \"6fcfe3a6-d967-45cd-9694-0eb31d79b8a3\", \"quantidade\": 4 }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/venda/c54d88c0-061e-4885-abe9-e7fd0a251153",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"venda",
+								"c54d88c0-061e-4885-abe9-e7fd0a251153"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Faturas",
+			"item": [
+				{
+					"name": "Fechar Fatura",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"competencia\": \"2026-08\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/fatura/f807f40c-07fa-42e9-9017-d8df919442d3",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"fatura",
+								"f807f40c-07fa-42e9-9017-d8df919442d3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
