@@ -1,5 +1,16 @@
 package dev.matheushnt.farma_vida.service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import dev.matheushnt.farma_vida.dto.CompetenciaRequest;
 import dev.matheushnt.farma_vida.dto.FechamentoFaturaResultado;
 import dev.matheushnt.farma_vida.exception.NenhumaVendaParaFaturarException;
@@ -10,16 +21,6 @@ import dev.matheushnt.farma_vida.model.Venda;
 import dev.matheushnt.farma_vida.repository.FaturaRepository;
 import dev.matheushnt.farma_vida.repository.PlanoSaudeRepository;
 import dev.matheushnt.farma_vida.repository.VendaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.UUID;
 
 @Service
 public class FecharFaturaService {
@@ -40,6 +41,9 @@ public class FecharFaturaService {
         LocalDate inicioMes = competencia.atDay(1).atStartOfDay().toLocalDate();
         LocalDate fimMes = competencia.atEndOfMonth();
 
+        PlanoSaude planoSaude = this.planoSaudeRepository.findById(planoSaudeId)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Plano de Saúde não encontrado"));
+
         List<Venda> vendas = this.vendaRepository.buscarVendasPendentesDeFaturamento(planoSaudeId, inicioMes, fimMes);
 
         if (vendas.isEmpty()) {
@@ -50,9 +54,6 @@ public class FecharFaturaService {
 
             return new FechamentoFaturaResultado(faturaExistente, false);
         }
-
-        PlanoSaude planoSaude = this.planoSaudeRepository.findById(planoSaudeId)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Plano de Saúde não encontrado"));
 
         Fatura fatura = new Fatura();
         fatura.setPlanoSaude(planoSaude);
