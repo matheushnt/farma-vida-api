@@ -13,7 +13,6 @@ O projeto tem como foco a implementação de **regras de negócio**, a **integri
 
 ## Sumário
 - [Pré-requisitos](#pré-requisitos)
-- [Como gerar o Build](#como-gerar-o-build)
 - [Como executar a aplicação](#como-executar-a-aplicação)
 - [Endpoints da API](#endpoints-da-api)
 - [Tecnologias utilizadas](#tecnologias-utilizadas)
@@ -22,54 +21,36 @@ O projeto tem como foco a implementação de **regras de negócio**, a **integri
 
 ## Pré-requisitos
 Antes de começar, certifique-se de ter instalado:
-- Java 21 ou superior;
-- Maven 3.8+ ou use o Maven Wrapper já incluso no projeto;
+- Docker Desktop (Windows/macOS) ou Docker Engine com Docker Compose v2 (Linux);
 - Git (opcional, caso queira clonar o repositório).
 
-## Como gerar o Build
-### Usando o Maven Wrapper
-Como o projeto inclui o Maven Wrapper, você não precisa instalar o Maven globalmente, a menos que você queira.
-#### No Linux/MacOS
-```bash
-./mvnw clean package
-```
-#### No Windows
-```bash
-./mvnw.cmd clean package
-```
-### Usando o Maven instalado globalmente
-Com o Maven instalado, basta executar:
-```bash
-mvn clean package
-```
----
-Estes comandos irão:
-- Limpar a pasta `/target`;
-- Compilar o código-fonte;
-- Gerar o arquivo `.jar`.
-
 ## Como executar a aplicação
-### Usando o Maven (recomendado em desenvolvimento)
-#### No Linux/MacOS
+Na raiz do projeto, crie o arquivo `.env` a partir do exemplo.
+
+No Linux/macOS:
 ```bash
-./mvnw spring-boot:run
-```
-#### No Windows
-```bash
-./mvnw.cmd spring-boot:run
-```
-#### Usando o Maven instalado globalmente
-```bash
-mvn spring-boot:run
-```
-### Usando o arquivo `.jar` gerado
-Após realizar o build da aplicação, você pode executar o arquivo `.jar` diretamente:
-```bash
-java -jar target/farma_vida-1.0.0.jar
+cp .env.example .env
 ```
 
-### Verificando se a aplicação está executando
-A aplicação estará disponível em `http://localhost:8080`. Você pode verificar se está funcionando acessando `http://localhost:8080/cliente`. Esta URL deve retornar uma lista vazia.
+Abra `.env` e defina o valor de `POSTGRES_PASSWORD`. O Docker Compose carrega esse arquivo automaticamente.
+
+Na raiz do projeto, construa a imagem e inicie a aplicação e o banco de dados:
+```bash
+docker compose up --build -d
+```
+
+Na primeira inicialização, a aplicação pode levar alguns instantes para ficar disponível. Acompanhe os logs:
+```bash
+docker compose logs -f application
+```
+Quando os logs indicarem que a aplicação iniciou, pressione `Ctrl+C` para encerrar o acompanhamento. Os contêineres continuarão em execução.
+
+Verifique a API em `http://localhost:8080/cliente`. Em uma instalação nova, a lista de clientes estará vazia.
+
+Para parar os serviços sem remover os dados do banco:
+```bash
+docker compose down
+```
 
 ## Endpoints da API
 ### Medicamentos
@@ -215,9 +196,11 @@ curl http://localhost:8080/fatura/5ce5929e-ff7e-44d5-99eb-2fefee0be4ff
 ## Tecnologias utilizadas
 - **Java 21** - Linguagem de programação;
 - **Spring Boot 4.0.7** - Framework principal;
-- **H2 Database** - Banco de dados em memória;
-- **Maven** - Gerenciador de dependências;
-- **Lombok** - Biblioteca para redução de código boilerplate.
+- **PostgreSQL 17** - Banco de dados relacional;
+- **Spring Data JPA e Hibernate** - Persistência e mapeamento objeto-relacional;
+- **Maven Wrapper** - Build e gerenciamento de dependências;
+- **Docker e Docker Compose** - Build e execução dos serviços;
+- **Lombok** - Redução de código boilerplate.
 
 ## Decisões tomadas
 - Na modelagem original, a entidade `VendaItem` tinha um campo `valorPagoConvenio`, usado para saber quanto cada item representava do valor pago pelo convênio. Ao longo do projeto, percebi que essa granularidade era desnecessária e removi o campo, migrando o valor pago pelo convênio para a entidade `Venda`. Caso essa granularidade volte a ser necessária no futuro, duas abordagens seriam possíveis: **por ordem de aparição na requisição** ou **por distribuição igualitária**, cada uma com seus próprios _trade-offs_.
@@ -225,7 +208,7 @@ curl http://localhost:8080/fatura/5ce5929e-ff7e-44d5-99eb-2fefee0be4ff
 - Para o registro de uma venda e o fechamento de fatura, usei **transações** para garantir a **consistência** e a **integridade** das informações, salvando tudo ou revertendo a operação por completo em caso de falha.
 
 ## Observações
-- A aplicação armazena os registros em memória, ou seja, não persiste em disco;
-- Ao reiniciar a aplicação, todos os registros adicionados serão perdidos;
+- O Docker Compose persiste os dados do PostgreSQL no volume `postgres-data`, inclusive após a parada ou recriação dos contêineres;
+- O arquivo `.env` contém credenciais locais e não deve ser versionado; use `.env.example` como referência;
 - Os termos **plano de saúde** e **convênio** são usados de maneira intercambiável durante este arquivo;
 - Na raiz do projeto, há a pasta `postman` que inclui a coleção de requisições. Você pode importar no Postman para fazer as requisições de maneira mais fácil.
