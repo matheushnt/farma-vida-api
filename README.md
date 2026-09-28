@@ -21,13 +21,16 @@ O projeto tem como foco a implementação de **regras de negócio**, a **integri
 
 ## Pré-requisitos
 Antes de começar, certifique-se de ter instalado:
-- Docker Desktop (Windows/macOS) ou Docker Engine com Docker Compose v2 (Linux);
+- Linux: Docker Engine e Docker Compose v2;
+- macOS: Docker Desktop;
+- Windows: Docker Desktop, WSL 2 e integração do Docker Desktop habilitada para a distribuição Linux;
 - Git (opcional, caso queira clonar o repositório).
 
 ## Como executar a aplicação
 Na raiz do projeto, crie o arquivo `.env` a partir do exemplo.
 
-No Linux/macOS:
+No Linux, execute no terminal. No macOS, inicie o Docker Desktop e use o Terminal. No Windows, abra o terminal da distribuição WSL integrada ao Docker Desktop. Execute os comandos abaixo na raiz do projeto:
+
 ```bash
 cp .env.example .env
 ```
